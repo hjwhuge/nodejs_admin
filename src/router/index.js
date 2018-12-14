@@ -3,8 +3,9 @@ const express = require('express');
 
 // 引入单独路由模块
 const userRouter = require('./user');
-const goodsRouter = require('./goods')
-const categoryRouter = require('./category')
+const goodsRouter = require('./goods');
+const categoryRouter = require('./category');
+// const loginRouter = require('./login');
 
 let Router = express.Router();
 
@@ -18,6 +19,6 @@ Router.use('/goods',goodsRouter);
 Router.use('/category',categoryRouter)
 
 //关于用户登录的路由
-Router.use('/login',categoryRouter)
+// Router.use('/login',loginRouter);
 
 module.exports = Router;

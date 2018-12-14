@@ -17,6 +17,7 @@
     "bootstrap": "^3.3.7",
     "express": "^4.16.4",
     "jquery": "^3.3.1",
-    "mongodb": "^3.1.10"
+    "mongodb": "^3.1.10",
+    "request": "^2.88.0"
   }
 }

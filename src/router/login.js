@@ -14,6 +14,6 @@ MongoClient.connect("mongodb://localhost:27017", function(err, database) {
     let db = database.db('administrator');
     
 });
-Router.post('/login',urlencodedParser,(req,res){
+// Router.post('/login',urlencodedParser,(req,res){
     
-});
+// });

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="assets/jquery-3.2.1.js"></script>
+</head>
+<body>
+	<script>
+		$.ajax({
+        type:'get',
+        url:'http://localhost:3006',
+        async:true,
+        data:{way:'sum'},
+        success:function(data){
+            console.log(data);
+
+        }
+    });
+	</script>
+</body>
+</html>

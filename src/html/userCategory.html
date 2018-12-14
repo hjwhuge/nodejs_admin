@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>后台管理系统</title>
-    <link rel="stylesheet" href="assets/layui/css/layui.css" media="all">
-    <script src="assets/layui/layui.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="../assets/layui/css/layui.css" media="all">
+    <script src="../assets/layui/layui.js" charset="utf-8"></script>
 </head>
 
 <body class="layui-layout-body">
@@ -17,6 +17,8 @@
             <ul class="layui-nav layui-layout-left">
                 <span class="layui-breadcrumb">
 				  	<a href="">首页</a>
+				  	<a href="">用户管理</a>
+				  	<a href="">用户列表</a>
 				</span>
             </ul>
 
@@ -41,20 +43,20 @@
                     <li class="layui-nav-item layui-nav-itemed">
                         <a class="" href="javascript:;">商品管理</a>
                         <dl class="layui-nav-child">
-                            <dd><a href="html/goodList.html">商品列表</a></dd>
-                            <dd><a href="html/goodsCategory.html">商品分类</a></dd>
+                            <dd><a href="./goodsList.html">商品列表</a></dd>
+                            <dd><a href="./goodsCategory.html">商品分类</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item">
                         <a href="javascript:;">用户管理</a>
                         <dl class="layui-nav-child">
-                            <dd><a href="html/userCategory.html">用户列表</a></dd>
+                            <dd><a href="./userCategory.html">用户列表</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item">
                         <a href="javascript:;">订单管理</a>
                         <dl class="layui-nav-child">
-                            <dd><a href="html/order.html">订单列表</a></dd>
+                            <dd><a href="./order.html">订单列表</a></dd>
                         </dl>
                     </li>
                 </ul>
@@ -63,7 +65,7 @@
         <div class="layui-body">
             <!-- 内容主体区域 -->
             <div style="padding: 15px;">
-            	<h1>首页</h1>
+            	<h1>用户列表</h1>
 
             </div>
         </div>
@@ -77,7 +79,7 @@
             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
             //监听导航点击
 			element.on('nav(demo)', function(elem){
-			    // console.log(elem);
+			    console.log(elem);
 			    layer.msg(elem.text());
 			});
         });

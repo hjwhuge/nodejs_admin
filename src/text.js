@@ -1,8 +1,18 @@
 const express = require('express');
-let Router = express.Router();
+const mongodb = require('mongodb');
+
+// 获取Mongo客户端
+const MongoClient = mongodb.MongoClient;
+
+let app = express();
+
+// 静态资源服务器
+app.use(express.static('./'));
 
 
-Router.get('/',(req,res)=>{
+// 路由
+
+app.get('/list' ,(req,res)=>{
     console.log(req.query);
     let {page,limit,key} = req.query;
 
@@ -71,35 +81,10 @@ Router.get('/',(req,res)=>{
 });
 
 
-// RESTful风格api
-Router.route('/:id')
-    .get((req,res)=>{
-        res.send({
-            path:'获取商品信息',
-            username:req.params.id
-        })
-    })
-
-    .post((req,res)=>{
-        res.send({
-            path:'修改商品信息',
-            username:req.params.id
-        })
-    })
-
-    .put((req,res)=>{
-        res.send({
-            path:'添加商品',
-            username:req.params.id
-        })
-    })
-
-    .delete((req,res)=>{
-        res.send({
-            path:'删除商品',
-            username:req.params.id
-        })
-    })
 
 
-module.exports = Router;
+
+
+app.listen(1809,()=>{
+    console.log('server is running on http://localhost:1809');
+})
