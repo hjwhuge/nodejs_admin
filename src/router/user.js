@@ -11,7 +11,8 @@ Router.get('/:username',(req,res)=>{
     res.send({
         path:req.url,
         username:req.params.username
-    })
+    });
+
 });
 
 
