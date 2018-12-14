@@ -5,7 +5,7 @@ const express = require('express');
 const userRouter = require('./user');
 const goodsRouter = require('./goods')
 const categoryRouter = require('./category')
-
+const login = require('./login')
 let Router = express.Router();
 
 // 关于用户的路由
@@ -18,6 +18,6 @@ Router.use('/goods',goodsRouter);
 Router.use('/category',categoryRouter)
 
 //关于用户登录的路由
-Router.use('/login',categoryRouter)
+Router.use('/login',login)
 
 module.exports = Router;

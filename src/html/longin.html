@@ -86,8 +86,8 @@
         </div>
         <div class="login">
             <h1>Wellcome</h1>
-            <input type="text" maxlength="6" placeholder="请输入管理账号"><i class="layui-icon layui-icon-username" style="font-size: 30px; color: rgb(36, 243, 54);"></i>
-            <input type="password" value="" placeholder="请输入密码" maxlength="11"><i class="layui-icon layui-icon-password" style="font-size: 30px; color: rgb(36, 243, 54);"></i>
+            <input type="text" maxlength="6" placeholder="请输入管理账号" class="name"><i class="layui-icon layui-icon-username" style="font-size: 30px; color: rgb(36, 243, 54);"></i>
+            <input type="password" value="" placeholder="请输入密码" maxlength="11" class="password"><i class="layui-icon layui-icon-password" style="font-size: 30px; color: rgb(36, 243, 54);"></i>
             <a href="javascript:;" class="btn">Login</a>
         </div>
     </div>
@@ -96,12 +96,27 @@
     <script>
         (()=>{
             $('.btn').click(()=>{
+                var name = $('.name').val();
+                var password = $('.password').val();
                 $.ajax({
-                    
-                })
+                    type:'post',
+                    url:'/login',
+                    async:true,
+                    data: {
+                        name,
+                        password
+                    },
+                    success:(data)=>{
+                        if(data.code == 1){
+                            location.href = '../index.html';
+                        }else{
+                            alert('用户名或密码错误');
+                        }
+                    }
+                });
                 
             });
-        }());
+        })();
     </script>
 </body>
 </html>
