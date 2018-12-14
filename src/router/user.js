@@ -10,7 +10,7 @@ Router.get('/',(req,res)=>{
 Router.get('/:username',(req,res)=>{
     res.send({
         path:req.url,
-        username:req.params.username
+        username:req.params.username;
     })
 });
 

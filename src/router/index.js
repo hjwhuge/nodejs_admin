@@ -17,4 +17,7 @@ Router.use('/goods',goodsRouter);
 // 关于商品分类的路由
 Router.use('/category',categoryRouter)
 
+//关于用户登录的路由
+Router.use('/login',categoryRouter)
+
 module.exports = Router;
