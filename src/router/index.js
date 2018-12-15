@@ -12,7 +12,7 @@ let Router = express.Router();
 Router.use('/user',userRouter);
 
 // 关于商品的路由
-Router.use('/goods',goodsRouter);
+Router.use('/html/goods',goodsRouter);
 
 // 关于商品分类的路由
 Router.use('/category',categoryRouter)

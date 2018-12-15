@@ -14,11 +14,11 @@
         <div class="layui-header">
             <div class="layui-logo">后台管理系统</div>
             <!-- 头部区域（可配合layui已有的水平导航） -->
-            <ul class="layui-nav layui-layout-left">
+            <ul class="layui-nav layui-layout-left" style="margin-top: 20px;">
                 <span class="layui-breadcrumb">
-				  	<a href="">首页</a>
-                    <a href="">商品管理</a>
-				  	<a href="">商品列表</a>
+				  	<a href="../index.html">首页</a>
+                    <a href="javascript:;">商品管理</a>
+				  	<a href="javascript:;">商品列表</a>
 				</span>
             </ul>
 
@@ -43,20 +43,22 @@
                     <li class="layui-nav-item layui-nav-itemed">
                         <a class="" href="javascript:;">商品管理</a>
                         <dl class="layui-nav-child">
-                            <dd><a href="javascript:;">商品列表</a></dd>
-                            <dd><a href="javascript:;">商品分类</a></dd>
+                            <dd><a href="goodList.html">商品列表</a></dd>
+                            <dd><a href="goodsCategory.html">商品分类</a></dd>
+                            <dd><a href="AddGoods.html">添加商品</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item">
                         <a href="javascript:;">用户管理</a>
                         <dl class="layui-nav-child">
-                            <dd><a href="javascript:;">用户列表</a></dd>
+                            <dd><a href="userCategory.html">用户列表</a></dd>
+                            <dd><a href="addUser.html">添加用户</a></dd>
                         </dl>
                     </li>
                     <li class="layui-nav-item">
                         <a href="javascript:;">订单管理</a>
                         <dl class="layui-nav-child">
-                            <dd><a href="javascript:;">订单列表</a></dd>
+                            <dd><a href="order.html">订单列表</a></dd>
                         </dl>
                     </li>
                 </ul>
@@ -94,21 +96,45 @@
                         url: 'goods',
                         toolbar: '#toolbarDemo',
                         title: '用户数据表',
+                        page: true,
+                        id: 'testReload',
+                        // request: {
+                        //     pageName: 'curr', //页码的参数名称，默认：page
+                        //     limitName: 'nums' //每页数据量的参数名，默认：limit
+                        // },
                         cols: [
                             [
-                                { type: 'checkbox', fixed: 'left' }, { field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true }, { field: 'username', title: '用户名', width: 120, edit: 'text' }, {
-                                    field: 'email',
-                                    title: '邮箱',
+                                { type: 'checkbox', fixed: 'left' }, 
+                                { field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true },
+                                 { field: 'username', title: '用户名', width: 120, edit: 'text' }, 
+                                //  {
+                                //     field: 'email',
+                                //     title: '邮箱',
+                                //     width: 150,
+                                //     edit: 'text',
+                                //     templet: function(res) {
+                                //         return '<em>' + res.email + '</em>'
+                                //     }
+                                // }, 
+                                {
+                                    field: 'classify',
+                                    title: '作家',
                                     width: 150,
                                     edit: 'text',
                                     templet: function(res) {
-                                        return '<em>' + res.email + '</em>'
+                                        return '<em>' + res.classify + '</em>'
                                     }
-                                }, { field: 'sex', title: '性别', width: 80, edit: 'text', sort: true }, { field: 'city', title: '城市', width: 100 }, { field: 'sign', title: '签名' }, { field: 'experience', title: '积分', width: 80, sort: true }, { field: 'ip', title: 'IP', width: 120 }, { field: 'logins', title: '登入次数', width: 100, sort: true }, { field: 'joinTime', title: '加入时间', width: 120 }, { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                                },
+                                { field: 'sex', title: '性别', width: 80, edit: 'text', sort: true }, 
+                                { field: 'city', title: '城市', width: 100 }, 
+                                { field: 'sign', title: '签名' }, 
+                                { field: 'experience', title: '积分', width: 80, sort: true }, 
+                                { field: 'ip', title: 'IP', width: 120 },
+                                 { field: 'logins', title: '登入次数', width: 100, sort: true }, 
+                                 { field: 'joinTime', title: '加入时间', width: 120 }, 
+                                 { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
                             ]
-                        ],
-                        page: true
-                        ,id: 'testReload'
+                        ]
                     });
 
                     //头工具栏事件
@@ -141,10 +167,10 @@
                         } else if (obj.event === 'edit') {
                             layer.prompt({
                                 formType: 2,
-                                value: data.email
+                                value: data.classify
                             }, function(value, index) {
                                 obj.update({
-                                    email: value
+                                    classify: value
                                 });
                                 layer.close(index);
                             });
@@ -190,7 +216,7 @@
             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
             //监听导航点击
 			element.on('nav(demo)', function(elem){
-			    console.log(elem);
+			    // console.log(elem);
 			    layer.msg(elem.text());
 			});
         });
