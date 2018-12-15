@@ -7,6 +7,7 @@
     <title>后台管理系统</title>
     <link rel="stylesheet" href="../assets/layui/css/layui.css" media="all">
     <script src="../assets/layui/layui.js" charset="utf-8"></script>
+    <script src="../assets/jquery-3.2.1.js"></script>
 </head>
 
 <body class="layui-layout-body">
@@ -16,18 +17,17 @@
             <!-- 头部区域（可配合layui已有的水平导航） -->
             <ul class="layui-nav layui-layout-left" style="margin-top: 20px;">
                 <span class="layui-breadcrumb">
-				  	<a href="../index.html">首页</a>
+                    <a href="../index.html">首页</a>
                     <a href="javascript:;">商品管理</a>
-				  	<a href="javascript:;">商品分类</a>
-				</span>
+                    <a href="javascript:;">商品分类</a>
+                </span>
             </ul>
-
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-			          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-			          贤心
-			        </a>
+                      <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                      贤心
+                    </a>
                     <dl class="layui-nav-child">
                         <dd><a href="">基本资料</a></dd>
                         <dd><a href="">安全设置</a></dd>
@@ -67,23 +67,89 @@
         <div class="layui-body">
             <!-- 内容主体区域 -->
             <div style="padding: 15px;">
-            	<h1>商品分类</h1>
+                <table class="layui-hide" id="test" lay-filter="test"></table>
+                <script type="text/html" id="toolbarDemo">
+                    <div class="layui-btn-container">
+                        <a href="http://localhost:1809/html/addCategory.html" class="layui-btn">
+                            <i class="layui-icon">&#xe61f;</i> 添加
+                        </a>
+                        <button class="layui-btn layui-btn-primary">
+                            <i class="layui-icon">&#xe640;</i>删除
+                        </button>
+                  </div>
+                </script>
+                <script type="text/html" id="barDemo">
+                    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                </script>
+                <script>
+                layui.use('table', function() {
+                    var table = layui.table;
 
+                    table.render({
+                        elem: '#test',
+                        url: 'goodsCategory',
+                        toolbar: '#toolbarDemo',
+                        defaultToolbar: [],
+                        title: '用户数据表',
+                        totalRow: true,
+                        page: false,
+                        cols: [
+                            [
+                                { type: 'checkbox', fixed: 'left' }, { field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true }, { field: 'classify', title: '商品分类', edit: 'text' }, { field: 'time', title: '添加时间', width: 120, sort: true }, { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                            ]
+                        ]
+                    });
+                    //监听行工具事件
+                    table.on('tool(test)', function(obj) {
+                        var data = obj.data;
+                        console.log(obj)
+                        if (obj.event === 'del') {
+
+                            $.ajax({
+                                type:"get",//请求方式
+                                url:"/html/goodsCategory/del",//接口路径
+                                async:true,//异步
+                                data:{//传输数据
+                                    id:obj.data.id
+                                },
+                                success:function(data){//成功回调
+                                    console.log(data);
+                                }
+                            });
+                            layer.confirm('真的删除行么', function(index) {
+                                obj.del();
+                                layer.close(index);
+                            });
+                        } else if (obj.event === 'edit') {
+                            layer.prompt({
+                                formType: 2,
+                                value: data.classify
+                            }, function(value, index) {
+                                obj.update({
+                                    classify: value
+                                });
+                                layer.close(index);
+                            });
+                        }
+                    });
+
+                });
+                </script>
             </div>
         </div>
-        <div class="layui-footer">
-            <!-- 底部固定区域 -->
+        <!--         <div class="layui-footer">
             底部固定区域
-        </div>
+        </div> -->
         <script>
         //JavaScript代码区域
         layui.use('element', function() {
             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
             //监听导航点击
-			element.on('nav(demo)', function(elem){
-			    console.log(elem);
-			    layer.msg(elem.text());
-			});
+            element.on('nav(demo)', function(elem) {
+                console.log(elem);
+                layer.msg(elem.text());
+            });
         });
         </script>
 </body>

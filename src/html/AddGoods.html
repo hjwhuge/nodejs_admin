@@ -16,18 +16,17 @@
             <!-- 头部区域（可配合layui已有的水平导航） -->
             <ul class="layui-nav layui-layout-left" style="margin-top: 20px;">
                 <span class="layui-breadcrumb">
-				  	<a href="../index.html">首页</a>
+                    <a href="../index.html">首页</a>
                     <a href="javascript:;">商品管理</a>
-				  	<a href="javascript:;">添加商品</a>
-				</span>
+                    <a href="javascript:;">添加商品</a>
+                </span>
             </ul>
-
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-			          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-			          贤心
-			        </a>
+                      <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                      贤心
+                    </a>
                     <dl class="layui-nav-child">
                         <dd><a href="">基本资料</a></dd>
                         <dd><a href="">安全设置</a></dd>
@@ -67,23 +66,136 @@
         <div class="layui-body">
             <!-- 内容主体区域 -->
             <div style="padding: 15px;">
-				<h1>添加商品</h1>
+                <!-- <ins class="adsbygoogle" style="display:inline-block;width:970px;height:90px" data-ad-client="ca-pub-6111334333458862" data-ad-slot="3820120620"></ins> -->
+  
+                <form class="layui-form" action="" lay-filter="example">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品名称</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="headline" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品副标题</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="subheading" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品价格</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="subheading" lay-verify="title" autocomplete="off" class="layui-input">
+                        </div>
+                        <label class="layui-form-label">销售价格</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="subheading" lay-verify="title" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品分类</label>
+                        <div class="layui-input-inline">
+                            <select name="interest" lay-filter="aihao">
+                                <option value=""></option>
+                                <option value="0">手机</option>
+                                <option value="1">电脑</option>
+                                <option value="2">平板</option>
+                                <option value="3">音乐</option>
+                                <option value="4">旅行</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">复选框</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="like[write]" title="热卖">
+                            <input type="checkbox" name="like[read]" title="推荐">
+                            <input type="checkbox" name="like[daze]" title="促销">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">上架</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">商品描述</label>
+                        <div class="layui-input-block">
+                            <textarea placeholder="请输入内容" class="layui-textarea" name="desc"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                        </div>
+                    </div>
+                </form>
+                <script>
+                    layui.use(['form', 'layedit', 'laydate'], function(){
+                      var form = layui.form
+                      ,layer = layui.layer
+                      ,layedit = layui.layedit
+                      ,laydate = layui.laydate;
+                      
+                     
+                      //自定义验证规则
+                      form.verify({
+                        title: function(value){
+                          if(value.length < 5){
+                            return '标题至少得5个字符啊';
+                          }
+                        }
+                        ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+                        ,content: function(value){
+                          layedit.sync(editIndex);
+                        }
+                      });
+                      
+                      //监听指定开关
+                      form.on('switch(switchTest)', function(data){
+                        layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+                          offset: '6px'
+                        });
+                        layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+                      });
+                      
+                      //监听提交
+                      form.on('submit(demo1)', function(data){
+                        layer.alert(JSON.stringify(data.field), {
+                          title: '最终的提交信息'
+                        })
+                        return false;
+                      });
+                     
+                      //表单初始赋值
+                      form.val('example', {
+                        "username": "贤心" // "name": "value"
+                        ,"password": "123456"
+                        ,"interest": 1
+                        ,"like[write]": true //复选框选中状态
+                        ,"close": true //开关状态
+                        ,"sex": "女"
+                        ,"desc": ""
+                      })
+                      
+                      
+                    });
+                    </script>
 
             </div>
         </div>
-        <div class="layui-footer">
-            <!-- 底部固定区域 -->
+<!--         <div class="layui-footer">
             底部固定区域
-        </div>
+        </div> -->
         <script>
         //JavaScript代码区域
         layui.use('element', function() {
             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
             //监听导航点击
-			element.on('nav(demo)', function(elem){
-			    // console.log(elem);
-			    layer.msg(elem.text());
-			});
+            element.on('nav(demo)', function(elem) {
+                // console.log(elem);
+                layer.msg(elem.text());
+            });
         });
         </script>
 </body>
