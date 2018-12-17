@@ -9,7 +9,7 @@ const login = require('./login');
 let Router = express.Router();
 
 // 关于用户的路由
-Router.use('/user',userRouter);
+Router.use('/html/user',userRouter);
 
 // 关于商品的路由
 Router.use('/html/goods',goodsRouter);
