@@ -1,58 +1,25 @@
 const express = require('express');
 let Router = express.Router();
 
-const mongodb = require('mongodb');
+const bodyParser = require('body-parser');
+let urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-
-// 获取Mongo客户端
-const MongoClient = mongodb.MongoClient;
+const db = require('../db');
 
 //查询商品分类所有数据
-Router.get('/', (req, res) => {
-    let { page, limit } = req.query;
+Router.get('/',async(req,res)=>{
+    //获取所有分类
+    // console.log(req.query);
+    let data
+    try{
+        data = await db.find('goodsCategory',{});
+    }catch(err){
+        data = err;
+    }
 
-    // console.log(page,limit);
-    MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err, database) => {
-        //连接成功后执行这个回调函数
-        if (err) throw err;
-
-        // 使用某个数据库，无则自动创建
-        let db = database.db('NodeProject');
-
-        // 使用集合
-        let user = db.collection('goodsCategory');
-
-        // 查询数据
-
-        // console.log(page,limit);
-        user.find().toArray((err, result) => {
-            // console.log(result);
-            let data;
-            if (err) {
-                // console.log(666);
-                data = {
-                    'code': 1,
-                    'data': [],
-                    'msg': err
-                }
-            } else {
-                data = {
-                    'code': 0,
-                    'data': result,
-                    'msg': 'hello word'
-                }
-
-            }
-
-            res.send(data);
-        });
-
-
-        // 关闭数据库，避免资源浪费
-        database.close();
-
-    });
+    res.send(data);
 });
+
 
 //插入商品信息
 Router.get('/inster', (req, res) => {
@@ -98,29 +65,19 @@ Router.get('/inster', (req, res) => {
 });
 
 //删除商品信息
-Router.get('/del', (req, res) => {
-    let {id} = req.query;
-    // console.log(id);
-    MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err, database) => {
-        //连接成功后执行这个回调函数
-        if (err) throw err;
+Router.delete('/del',urlencodedParser,async(req,res)=>{
+    let {id} = req.body;
+    console.log(id);
+    let data
+    try{
+        data = await db.delete('goodsCategory',{id:id*1});
+    }catch(err){
+        data = err;
+    }
 
-        // 使用某个数据库，无则自动创建
-        let db = database.db('NodeProject');
-
-        // 使用集合
-        let user = db.collection('goodsCategory');
-
-        // 删除数据
-        user.deleteOne({id:id*1},(err,result)=>{
-            console.log(result)
-        });
-
-        // 关闭数据库，避免资源浪费
-        database.close();
-
-    });
+    res.send(data);
 });
+
 
 // RESTful风格api
 Router.route('/:id')

@@ -73,7 +73,7 @@
                         <a href="http://localhost:1809/html/addCategory.html" class="layui-btn">
                             <i class="layui-icon">&#xe61f;</i> 添加
                         </a>
-                        <button class="layui-btn layui-btn-primary">
+                        <button class="layui-btn layui-btn-primary" lay-event="delete">
                             <i class="layui-icon">&#xe640;</i>删除
                         </button>
                   </div>
@@ -103,21 +103,21 @@
                     //监听行工具事件
                     table.on('tool(test)', function(obj) {
                         var data = obj.data;
-                        console.log(obj)
+                        // console.log(obj);
                         if (obj.event === 'del') {
-
-                            $.ajax({
-                                type:"get",//请求方式
-                                url:"/html/goodsCategory/del",//接口路径
-                                async:true,//异步
-                                data:{//传输数据
-                                    id:obj.data.id
-                                },
-                                success:function(data){//成功回调
-                                    console.log(data);
-                                }
-                            });
                             layer.confirm('真的删除行么', function(index) {
+                                $.ajax({
+                                    type: "delete", //请求方式
+                                    url: "/html/goodsCategory/del", //接口路径
+                                    async: true, //异步
+                                    data: { //传输数据
+                                        id: obj.data.id
+                                    },
+                                    success: function(data) { //成功回调
+                                        console.log(data);
+                                    }
+                                });
+
                                 obj.del();
                                 layer.close(index);
                             });
@@ -133,6 +133,42 @@
                             });
                         }
                     });
+
+                    //头工具栏事件
+                    table.on('toolbar(test)', function(obj) {
+                        var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
+                        //获取选中行数据
+                        var data = checkStatus.data;
+                        data = data.map(item => {
+                            return item.id
+                        })
+
+                        switch (obj.event) {
+                            case 'delete':
+                                console.log(obj)
+                                layer.confirm('真的删除这些行吗', function(index) {
+                                    for (var i = 0; i < data.length; i++) {
+                                        $.ajax({
+                                            type: "delete", //请求方式
+                                            url: "/html/goodsCategory/del", //接口路径
+                                            async: true, //异步
+                                            data: { //传输数据
+                                                id: data[i]
+                                            },
+                                            success: function(data) { //成功回调
+                                                console.log(data);
+                                            }
+                                        });
+                                    }
+
+                                    layer.close(index);
+                                    location.reload();
+                                });
+                                break;
+                        };
+                    });
+
+
 
                 });
                 </script>
