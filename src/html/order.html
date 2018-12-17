@@ -16,18 +16,17 @@
             <!-- 头部区域（可配合layui已有的水平导航） -->
             <ul class="layui-nav layui-layout-left" style="margin-top: 20px;">
                 <span class="layui-breadcrumb">
-				  	<a href="../index.html">首页</a>
+                    <a href="../index.html">首页</a>
                     <a href="javascript:;">订单管理</a>
-				  	<a href="javascript:;">订单列表</a>
-				</span>
+                    <a href="javascript:;">订单列表</a>
+                </span>
             </ul>
-
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-			          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-			          贤心
-			        </a>
+                      <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                      贤心
+                    </a>
                     <dl class="layui-nav-child">
                         <dd><a href="">基本资料</a></dd>
                         <dd><a href="">安全设置</a></dd>
@@ -67,23 +66,57 @@
         <div class="layui-body">
             <!-- 内容主体区域 -->
             <div style="padding: 15px;">
-            	<h1>订单表</h1>
+                <table class="layui-hide" id="test" lay-filter="test"></table>
 
+                <script type="text/html" id="barDemo">
+                    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                </script>
+                <script>
+                layui.use('table', function() {
+                    var table = layui.table;
+
+                    table.render({
+                        elem: '#test',
+                        url: 'order',
+                        toolbar: false,
+                        title: '用户数据表',
+                        totalRow: true,
+                        page: false,
+                        cols: [
+                            [
+                                { type: 'checkbox', fixed: 'left' },
+                                { field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true },
+                                { field: 'name', title: '商品分类', edit: 'text' },
+
+                                { field: 'price', title: '价格', edit: 'text' ,sort:true},
+                                { field: 'num', title: '数量', edit: 'text' },
+                                { field: 'carriage', title: '运费', edit: 'text' },
+                                { field: 'total', title: '商品总额', edit: 'text' },
+                                { field: 'indent', title: '订单总额', edit: 'text' },
+
+                                { field: 'time', title: '下单时间', width: 120, sort: true },
+                                { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                            ]
+                        ]
+                    });
+
+                });
+                </script>
             </div>
         </div>
-        <div class="layui-footer">
-            <!-- 底部固定区域 -->
+        <!--         <div class="layui-footer">
             底部固定区域
-        </div>
+        </div> -->
         <script>
         //JavaScript代码区域
         layui.use('element', function() {
             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
             //监听导航点击
-			element.on('nav(demo)', function(elem){
-			    console.log(elem);
-			    layer.msg(elem.text());
-			});
+            element.on('nav(demo)', function(elem) {
+                console.log(elem);
+                layer.msg(elem.text());
+            });
         });
         </script>
 </body>
