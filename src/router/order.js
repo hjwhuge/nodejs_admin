@@ -1,56 +1,39 @@
 const express = require('express');
-const mongodb = require('mongodb');
+
 
 let Router = express.Router();
 
+const bodyParser = require('body-parser');
+let urlencodedParser = bodyParser.urlencoded({ extended: false })
 
+const db = require('../db');
 
-// 获取Mongo客户端
-const MongoClient = mongodb.MongoClient;
-
-Router.get('/',(req,res)=>{
+//获取所有订单
+Router.get('/',async(req,res)=>{
+    //获取所有分类
     // console.log(req.query);
-    let {page,limit} = req.query;
+    let data
+    try{
+        data = await db.find('order',{});
+    }catch(err){
+        data = err;
+    }
 
-    // console.log(page,limit);
-    MongoClient.connect('mongodb://localhost:27017',{ useNewUrlParser: true },(err, database)=>{
-        //连接成功后执行这个回调函数
-        if(err) throw err;
+    res.send(data);
+});
 
-        // 使用某个数据库，无则自动创建
-        let db = database.db('NodeProject');
+//删除订单信息
+Router.delete('/del',urlencodedParser,async(req,res)=>{
+    let {id} = req.body;
+    console.log(req.body);
+    let data
+    try{
+        data = await db.delete('order',{id:id*1});
+    }catch(err){
+        data = err;
+    }
 
-        // 使用集合
-        let user = db.collection('order');
-
-        // let data='';
-
-        // user.insertOne(data,(err, result)=>{
-        //     // result:插入数据成功的信息
-        //     //  * ops  插入的所有数据（带id）
-        //     //  * insertedCount  插入的数量
-        //     console.log(result)
-        // });
-
-        user.find().toArray((err,result)=>{
-            // console.log(result);
-            let data;
-            data = {
-                'code':0,
-                'data':result,
-                'msg':'hello word'
-            }
-                
-
-
-            res.send(data);
-        });
-       
-
-        // 关闭数据库，避免资源浪费
-        database.close();
-
-    });
+    res.send(data);
 });
 
 
