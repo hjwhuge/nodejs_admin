@@ -1,6 +1,7 @@
 // 利用Express中的Router实现路由模块化
 const express = require('express');
 const mongodb = require('mongodb');
+const url = require('url');
 let Router = express.Router();
 
 // 获取Mongo客户端
@@ -9,7 +10,6 @@ const MongoClient = mongodb.MongoClient;
 
 Router.get('/',(req,res)=>{
     // console.log(req.query);查看请求参数，如果没有默认为{}
-    // console.log(req.query);
     let {page,limit,key} = req.query;
 
     // console.log(page,limit,key);
@@ -98,6 +98,42 @@ Router.get('/',(req,res)=>{
     });
    
 });
+
+Router.get('/:id',(req,res)=>{
+    let {id} = req.params;
+    if(id){
+        MongoClient.connect('mongodb://localhost:27017',{ useNewUrlParser: true },(err, database)=>{
+            //连接成功后执行这个回调函数
+            if(err) throw err;
+
+            // 使用某个数据库，无则自动创建
+            let db = database.db('administrator');
+
+            // 使用集合
+            let user = db.collection('adminer');
+
+            
+            // 删除数据 deleteOne()
+            user.remove({id:id*1},(err,result)=>{
+                if(err){
+                    res.send(err);
+                }else{
+                    res.send({
+                        code:1
+                    })
+                }
+
+            })
+
+            // 关闭数据库，避免资源浪费
+            database.close();
+
+        });
+    }
+    
+
+});
+
 
 Router.get('/:username',(req,res)=>{
     res.send({

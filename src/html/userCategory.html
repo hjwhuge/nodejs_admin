@@ -113,7 +113,7 @@
                                     { field: 'sign', title: '签名' }, 
                                     {
                                         field: 'classify',
-                                        title: '作家',
+                                        title: '职业',
                                         width: 150,
                                         edit: 'text',
                                         templet: function(res) {
@@ -150,13 +150,22 @@
                         //监听行工具事件
                         table.on('tool(test)', function(obj) {
                             var data = obj.data;
-                            //console.log(obj)
+                            // console.log($(this).parent().parent().parent().children().eq(1).children().html());
+                            var idnum = $(this).parent().parent().parent().children().eq(1).children().html();
+                            console.log(idnum)
                             if (obj.event === 'del') {
                                 layer.confirm('真的删除当行么', function(index) {
-                                    obj.del();
-                                    let usernameid = ('this').attr('data-index');
-                                    console.log(usernameid);
+                                    obj.del();                                                                      
                                     layer.close(index);
+                                    let usernameid = $(this).parent();
+                                    $.ajax({
+                                        type:'get',
+                                        url:'/html/user/'+idnum,
+                                        success:(data)=>{
+                                            console.log(data);
+                                        }
+                                        
+                                    });
                                     
                                 });
                             } else if (obj.event === 'edit') {
