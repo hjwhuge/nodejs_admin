@@ -1,9 +1,11 @@
 const express = require('express');
 const mongodb = require('mongodb');
-
+const ObjectID = mongodb.ObjectID;
+const bodyParser = require('body-parser');
+let urlencodedParser = bodyParser.urlencoded({ extended: false })
 let Router = express.Router();
 
-
+const db = require('../db');
 
 // 获取Mongo客户端
 const MongoClient = mongodb.MongoClient;
@@ -100,36 +102,67 @@ Router.get('/',(req,res)=>{
     });
 });
 
-
 // RESTful风格api
 Router.route('/:id')
-    .get((req,res)=>{
-        res.send({
-            path:'获取商品信息',
-            username:req.params.id
-        })
+    .get(async(req, res) => {
+        let {id,state} = req.query;
+        console.log(id);
+        let data
+        try{
+            data = await db.update('list',{_id:ObjectID(id)},{state});
+        }catch(err){
+            data = err;
+        }
+
+        res.send(data);
+    })
+    //修改商品信息
+    .post(urlencodedParser,async(req, res) => {
+        let {id,goods,priceOld,priceNow,stock,state,classify} = req.body;
+        console.log(id);
+        let data
+        try{
+            data = await db.update('list',{_id:ObjectID(id)},{goods,priceOld,priceNow,stock,state,classify});
+        }catch(err){
+            data = err;
+        }
+
+        res.send(data);
+    })
+    //添加商品分类信息
+    .put(urlencodedParser,async(req, res) => {
+        let {goods,priceOld,priceNow,stock,state,classify} = req.body;
+        let data
+        try{
+            data = await db.insert('list',{goods,priceOld,priceNow,stock,state,classify,time:show()});
+        }catch(err){
+            data = err;
+        }
+        res.send(data);
     })
 
-    .post((req,res)=>{
-        res.send({
-            path:'修改商品信息',
-            username:req.params.id
-        })
+    //删除商品信息
+    .delete(urlencodedParser,async(req, res) => {
+        let {id} = req.body;
+        console.log(id);
+        let data
+        try{
+            data = await db.delete('list',{_id:ObjectID(id)});
+        }catch(err){
+            data = err;
+        }
+
+        res.send(data);
     })
 
-    .put((req,res)=>{
-        res.send({
-            path:'添加商品',
-            username:req.params.id
-        })
-    })
+function show() {
+    var mydate = new Date();
+    var str = mydate.getFullYear() +'-' ;
+    str += (mydate.getMonth() + 1) +'-' ;
+    str += mydate.getDate();
+    return str;
+}
 
-    .delete((req,res)=>{
-        res.send({
-            path:'删除商品',
-            username:req.params.id
-        })
-    })
 
 
 module.exports = Router;

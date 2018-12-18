@@ -5,7 +5,6 @@ const express = require('express');
 const userRouter = require('./user');
 const goodsRouter = require('./goods');
 const categoryRouter = require('./category');
-// const addGoods = require('./addGoods');
 const order = require('./order');
 const login = require('./login');
 let Router = express.Router();
@@ -19,8 +18,6 @@ Router.use('/html/goods',goodsRouter);
 // 关于商品分类的路由
 Router.use('/html/goodsCategory',categoryRouter)
 
-// 关于添加商品的路由
-// Router.use('/html/addGoods',addGoods)
 
 // 关于订单列表的路由
 Router.use('/html/order',order)

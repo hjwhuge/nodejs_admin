@@ -1,6 +1,6 @@
 const express = require('express');
 let Router = express.Router();
-
+const ObjectID = require('mongodb').ObjectID;
 const bodyParser = require('body-parser');
 let urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -21,62 +21,20 @@ Router.get('/',async(req,res)=>{
 });
 
 
-//插入商品信息
-Router.get('/inster', (req, res) => {
-    let { classify, remark } = req.query;
-
-    // console.log(classify,remark);
-    MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err, database) => {
-        //连接成功后执行这个回调函数
-        if (err) throw err;
-
-        // 使用某个数据库，无则自动创建
-        let db = database.db('NodeProject');
-
-        // 使用集合
-        let user = db.collection('goodsCategory');
-
-        // function pages() {
-        //     let pages;
-        //     user.find().count((err, result) => {
-        //         console.log(result);
-        //         return result+1;
-        //     })
-        // }
-
-        // 插入数据
-        user.insertOne({
-            classify,
-            remark,
-            id: 11,
-            time:show()
-        }, (err, result) => {
-            // result:插入数据成功的信息
-            //  * ops  插入的所有数据（带id）
-            //  * insertedCount  插入的数量
-            // console.log(result)
-        });
-
-
-        // 关闭数据库，避免资源浪费
-        database.close();
-
-    });
-});
 
 //删除商品信息
-Router.delete('/del',urlencodedParser,async(req,res)=>{
-    let {id} = req.body;
-    console.log(id);
-    let data
-    try{
-        data = await db.delete('goodsCategory',{id:id*1});
-    }catch(err){
-        data = err;
-    }
+// Router.delete('/del',urlencodedParser,async(req,res)=>{
+//     let {id} = req.body;
+//     console.log(id);
+//     let data
+//     try{
+//         data = await db.delete('goodsCategory',{id:id*1});
+//     }catch(err){
+//         data = err;
+//     }
 
-    res.send(data);
-});
+//     res.send(data);
+// });
 
 
 // RESTful风格api
@@ -87,26 +45,43 @@ Router.route('/:id')
             username: req.params.id
         })
     })
+    //修改商品分类信息
+    .post(urlencodedParser,async(req, res) => {
+        let {id,value} = req.body;
+        console.log(id);
+        let data
+        try{
+            data = await db.update('goodsCategory',{_id:ObjectID(id)},{classify:value});
+        }catch(err){
+            data = err;
+        }
 
-    .post((req, res) => {
-        res.send({
-            path: '修改商品信息',
-            username: req.params.id
-        })
+        res.send(data);
+    })
+    //添加商品分类信息
+    .put(urlencodedParser,async(req, res) => {
+        let {classify,remark} = req.body;
+        let data
+        try{
+            data = await db.insert('goodsCategory',{classify,remark,time:show()});
+        }catch(err){
+            data = err;
+        }
+        res.send(data);
     })
 
-    .put((req, res) => {
-        res.send({
-            path: '添加商品',
-            username: req.params.id
-        })
-    })
+    //删除商品信息
+    .delete(urlencodedParser,async(req, res) => {
+        let {id} = req.body;
+        console.log(id);
+        let data
+        try{
+            data = await db.delete('goodsCategory',{_id:ObjectID(id)});
+        }catch(err){
+            data = err;
+        }
 
-    .delete((req, res) => {
-        res.send({
-            path: '删除商品',
-            username: req.params.id
-        })
+        res.send(data);
     })
 
 function show() {

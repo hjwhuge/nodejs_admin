@@ -86,9 +86,8 @@
                         cols: [
                             [
                                 { type: 'checkbox', fixed: 'left' },
-                                { field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true },
-                                { field: 'name', title: '商品分类', edit: 'text' },
-
+                                {  templet: '#indexTpl', title: 'ID', width: 80, fixed: 'left', unresize: true },
+                                { field: 'name', title: '商品分类', edit: 'text'},
                                 { field: 'price', title: '价格', edit: 'text' ,sort:true},
                                 { field: 'num', title: '数量', edit: 'text' },
                                 { field: 'carriage', title: '运费', edit: 'text' },
@@ -116,7 +115,7 @@
                                 url:"/html/order/del",//接口路径
                                 async:true,//异步
                                 data:{//传输数据
-                                    id:obj.data.id
+                                    id:obj.data._id
                                 },
                                 success:function(data){//成功回调
                                     console.log(data);
@@ -128,7 +127,9 @@
                 });
 
                 </script>
-
+                <script type="text/html" id="indexTpl">
+                    {{d.LAY_TABLE_INDEX+1}}
+                </script>
 
             </div>
         </div>

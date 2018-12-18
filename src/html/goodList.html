@@ -16,18 +16,17 @@
             <!-- 头部区域（可配合layui已有的水平导航） -->
             <ul class="layui-nav layui-layout-left" style="margin-top: 20px;">
                 <span class="layui-breadcrumb">
-				  	<a href="../index.html">首页</a>
+                    <a href="../index.html">首页</a>
                     <a href="javascript:;">商品管理</a>
-				  	<a href="javascript:;">商品列表</a>
-				</span>
+                    <a href="javascript:;">商品列表</a>
+                </span>
             </ul>
-
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
                     <a href="javascript:;">
-			          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-			          贤心
-			        </a>
+                      <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                      贤心
+                    </a>
                     <dl class="layui-nav-child">
                         <dd><a href="">基本资料</a></dd>
                         <dd><a href="">安全设置</a></dd>
@@ -67,26 +66,30 @@
         <div class="layui-body">
             <!-- 内容主体区域 -->
             <div style="padding: 15px;">
-            	<div class="demoTable">
-            	    搜索ID：
-					<div class="layui-inline">
-					    <input class="layui-input" name="id" id="demoReload" autocomplete="off">
-					</div>
-					<button class="layui-btn" data-type="reload">搜索</button>
-				</div>
+                <div class="demoTable layui-inline">
+                    搜索ID：
+                    <div class="layui-inline">
+                        <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+                    </div>
+                    <button class="layui-btn" data-type="reload">搜索</button>
+                </div>
                 <table class="layui-hide" id="test" lay-filter="test"></table>
-
                 <script type="text/html" id="toolbarDemo">
                     <div class="layui-btn-container">
-					    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-					    <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-					    <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
-					</div>
-				</script>
+                        <a href="http://localhost:1809/html/AddGoods.html" class="layui-btn">
+                            <i class="layui-icon">&#xe61f;</i> 添加
+                        </a>
+                        <button class="layui-btn layui-btn-primary" lay-event="delete">
+                            <i class="layui-icon">&#xe640;</i>删除
+                        </button>
+                    </div>
+
+                </script>
                 <script type="text/html" id="barDemo">
-                    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-				  	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-				</script>
+                    <a class="layui-btn layui-btn-xs" lay-event="edit1">编辑</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">上 / 下架</a>
+                </script>
                 <script>
                 layui.use('table', function() {
                     var table = layui.table;
@@ -95,62 +98,58 @@
                         elem: '#test',
                         url: 'goods',
                         toolbar: '#toolbarDemo',
+                        defaultToolbar: [],
                         title: '用户数据表',
                         page: true,
                         id: 'testReload',
-                        // request: {
-                        //     pageName: 'curr', //页码的参数名称，默认：page
-                        //     limitName: 'nums' //每页数据量的参数名，默认：limit
-                        // },
+
                         cols: [
                             [
-                                { type: 'checkbox', fixed: 'left' }, 
-                                { field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true },
-                                 { field: 'username', title: '用户名', width: 120, edit: 'text' }, 
-                                //  {
-                                //     field: 'email',
-                                //     title: '邮箱',
-                                //     width: 150,
-                                //     edit: 'text',
-                                //     templet: function(res) {
-                                //         return '<em>' + res.email + '</em>'
-                                //     }
-                                // }, 
-                                {
-                                    field: 'classify',
-                                    title: '作家',
-                                    width: 150,
-                                    edit: 'text',
-                                    templet: function(res) {
-                                        return '<em>' + res.classify + '</em>'
-                                    }
-                                },
-                                { field: 'sex', title: '性别', width: 80, edit: 'text', sort: true }, 
-                                { field: 'city', title: '城市', width: 100 }, 
-                                { field: 'sign', title: '签名' }, 
-                                { field: 'experience', title: '积分', width: 80, sort: true }, 
-                                { field: 'ip', title: 'IP', width: 120 },
-                                 { field: 'logins', title: '登入次数', width: 100, sort: true }, 
-                                 { field: 'joinTime', title: '加入时间', width: 120 }, 
-                                 { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                                { type: 'checkbox', fixed: 'left' },
+                                { type: 'numbers', title: 'ID', width: 80, fixed: 'left', unresize: true },
+                                { field: 'goods', title: '商品名称', width: 120, edit: 'text' },
+                                { field: 'classify', title: '商品分类', sort: true },
+                                { field: 'priceOld', title: '原价' },
+                                { field: 'priceNow', title: '现价' },
+                                { field: 'stock', title: '库存' },
+                                { field: 'state', title: '状态' },
+                                { field: 'time', title: '加入时间' },
+                                { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180 }
                             ]
                         ]
                     });
 
                     //头工具栏事件
                     table.on('toolbar(test)', function(obj) {
-                        var checkStatus = table.checkStatus(obj.config.id);
+                        var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
+                        //获取选中行数据
+                        var data = checkStatus.data;
+
+                        data = data.map(item => {
+                            return item._id
+                        })
+                        // console.log(data)
                         switch (obj.event) {
-                            case 'getCheckData':
-                                var data = checkStatus.data;
-                                layer.alert(JSON.stringify(data));
-                                break;
-                            case 'getCheckLength':
-                                var data = checkStatus.data;
-                                layer.msg('选中了：' + data.length + ' 个');
-                                break;
-                            case 'isAll':
-                                layer.msg(checkStatus.isAll ? '全选' : '未全选');
+                            case 'delete':
+
+                                layer.confirm('真的删除这些行吗', function(index) {
+                                    for (var i = 0; i < data.length; i++) {
+                                        $.ajax({
+                                            type: "delete", //请求方式
+                                            url: "/html/goods/" + data[i], //接口路径
+                                            async: true, //异步
+                                            data: { //传输数据
+                                                id: data[i]
+                                            },
+                                            success: function(data) { //成功回调
+                                                // console.log(data);
+                                            }
+                                        });
+                                    }
+
+                                    layer.close(index);
+                                    location.reload();
+                                });
                                 break;
                         };
                     });
@@ -158,47 +157,82 @@
                     //监听行工具事件
                     table.on('tool(test)', function(obj) {
                         var data = obj.data;
-                        //console.log(obj)
+                        // console.log(obj);
                         if (obj.event === 'del') {
                             layer.confirm('真的删除行么', function(index) {
+                                $.ajax({
+                                    type: "delete", //请求方式
+                                    url: "/html/goods/" + obj.data._id, //接口路径
+                                    async: true, //异步
+                                    data: { //传输数据
+                                        id: obj.data._id
+                                    },
+                                    success: function(data) { //成功回调
+                                        // console.log(data);
+                                    }
+                                });
+
                                 obj.del();
                                 layer.close(index);
                             });
+                        } else if (obj.event === 'edit1') {
+                            //点击编辑商品，跳转到编辑页面
+                            location.href = 'goodsEdit.html?id=' + data._id;
                         } else if (obj.event === 'edit') {
-                            layer.prompt({
-                                formType: 2,
-                                value: data.classify
-                            }, function(value, index) {
-                                obj.update({
-                                    classify: value
-                                });
-                                layer.close(index);
+                            //上架下架按钮
+                            var state = obj.data.state ;
+                            if(state == '上架'){
+                                state='下架';
+                                // 改变颜色
+                                // $(this).addClass('layui-bg-black')
+                            }else{
+                                state='上架';
+                            } 
+   
+
+                            //修改前端数据
+                            obj.update({state});
+                            layer.msg(state+'成功');
+                            // 修改数据库数据
+                            $.ajax({
+                                type: "get", //请求方式,本来用post，被编辑所有数据占用，改用get
+                                url: "/html/goods/" + obj.data._id, //接口路径
+                                async: true, //异步
+                                data: { //传输数据
+                                    id: obj.data._id,
+                                    state
+                                },
+                                success: function(data) { //成功回调
+                                    // console.log(data);
+                                }
                             });
+
                         }
                     });
 
-                    var $ = layui.$, active = {
-					    reload: function(){
-					    	var demoReload = $('#demoReload');
-					      
-					      	//执行重载
-					      	table.reload('testReload', {
-					        	page: {
-					          		curr: 1 //重新从第 1 页开始
-					        	}
-					        	,where: {
-						          	key: {
-						            	id: demoReload.val()
-						          	}
-					        	}
-					      	});
-					    }
-					};
-					  
-					$('.demoTable .layui-btn').on('click', function(){
-					    var type = $(this).data('type');
-					    active[type] ? active[type].call(this) : '';
-					});
+                    var $ = layui.$,
+                        active = {
+                            reload: function() {
+                                var demoReload = $('#demoReload');
+
+                                //执行重载
+                                table.reload('testReload', {
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    },
+                                    where: {
+                                        key: {
+                                            id: demoReload.val()
+                                        }
+                                    }
+                                });
+                            }
+                        };
+
+                    $('.demoTable .layui-btn').on('click', function() {
+                        var type = $(this).data('type');
+                        active[type] ? active[type].call(this) : '';
+                    });
 
 
                 });
@@ -215,10 +249,10 @@
         layui.use('element', function() {
             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
             //监听导航点击
-			element.on('nav(demo)', function(elem){
-			    // console.log(elem);
-			    layer.msg(elem.text());
-			});
+            element.on('nav(demo)', function(elem) {
+                // console.log(elem);
+                layer.msg(elem.text());
+            });
         });
         </script>
 </body>

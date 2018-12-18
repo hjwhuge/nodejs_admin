@@ -140,12 +140,13 @@
 
                     //点击确认插入数据
                     $('#add_btn').click(()=>{
-                        console.log(111)
+                        // console.log(111)
                         let classify = $('.category').val();
                         let remark = $('.remark').val();
+                        // console.log(classify,remark)
                         $.ajax({
-                            type:"get",//请求方式
-                            url:"/html/goodsCategory/inster",//接口路径
+                            type:"put",//请求方式
+                            url:"/html/goodsCategory/1",//接口路径
                             async:true,//异步
                             data:{//传输数据
                                 'classify':classify,
@@ -153,6 +154,7 @@
                             },
                             success:function(data){//成功回调
                                 console.log(data);
+                                location.href = './goodsCategory.html';
                             }
                         });
                     });

@@ -96,7 +96,7 @@
                         page: false,
                         cols: [
                             [
-                                { type: 'checkbox', fixed: 'left' }, { field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true }, { field: 'classify', title: '商品分类', edit: 'text' }, { field: 'time', title: '添加时间', width: 120, sort: true }, { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
+                                { type: 'checkbox', fixed: 'left' }, { templet: '#indexTpl', title: 'ID', width: 80, fixed: 'left', unresize: true }, { field: 'classify', title: '商品分类', edit: 'text' }, { field: 'time', title: '添加时间', width: 120, sort: true }, { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
                             ]
                         ]
                     });
@@ -108,10 +108,10 @@
                             layer.confirm('真的删除行么', function(index) {
                                 $.ajax({
                                     type: "delete", //请求方式
-                                    url: "/html/goodsCategory/del", //接口路径
+                                    url: "/html/goodsCategory/"+obj.data._id, //接口路径
                                     async: true, //异步
                                     data: { //传输数据
-                                        id: obj.data.id
+                                        id: obj.data._id
                                     },
                                     success: function(data) { //成功回调
                                         console.log(data);
@@ -126,8 +126,22 @@
                                 formType: 2,
                                 value: data.classify
                             }, function(value, index) {
+                                //修改前端数据
                                 obj.update({
                                     classify: value
+                                });
+                                //修改数据库数据
+                                $.ajax({
+                                    type: "post", //请求方式
+                                    url: "/html/goodsCategory/"+obj.data._id, //接口路径
+                                    async: true, //异步
+                                    data: { //传输数据
+                                        id: obj.data._id,
+                                        value
+                                    },
+                                    success: function(data) { //成功回调
+                                        console.log(data);
+                                    }
                                 });
                                 layer.close(index);
                             });
@@ -139,18 +153,19 @@
                         var checkStatus = table.checkStatus(obj.config.id); //获取选中行状态
                         //获取选中行数据
                         var data = checkStatus.data;
+                        
                         data = data.map(item => {
-                            return item.id
+                            return item._id
                         })
-
+                        console.log(data)
                         switch (obj.event) {
                             case 'delete':
-                                console.log(obj)
+                                
                                 layer.confirm('真的删除这些行吗', function(index) {
                                     for (var i = 0; i < data.length; i++) {
                                         $.ajax({
                                             type: "delete", //请求方式
-                                            url: "/html/goodsCategory/del", //接口路径
+                                            url: "/html/goodsCategory/"+data[i], //接口路径
                                             async: true, //异步
                                             data: { //传输数据
                                                 id: data[i]
@@ -171,6 +186,9 @@
 
 
                 });
+                </script>
+                <script type="text/html" id="indexTpl">
+                    {{d.LAY_TABLE_INDEX+1}}
                 </script>
             </div>
         </div>

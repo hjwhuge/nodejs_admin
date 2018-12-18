@@ -1,5 +1,6 @@
 const express = require('express');
-
+// const mongodb = require('mongodb');
+const ObjectID = require('mongodb').ObjectID;
 
 let Router = express.Router();
 
@@ -25,10 +26,11 @@ Router.get('/',async(req,res)=>{
 //删除订单信息
 Router.delete('/del',urlencodedParser,async(req,res)=>{
     let {id} = req.body;
-    console.log(req.body);
+    // var doc = req.query;
+    console.log(id);
     let data
     try{
-        data = await db.delete('order',{id:id*1});
+        data = await db.delete('order',{_id:ObjectID(id)});
     }catch(err){
         data = err;
     }
