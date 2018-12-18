@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../assets/layui/css/layui.css" media="all">
     <script src="../assets/layui/layui.js" charset="utf-8"></script>
     <script src="../assets/jquery-3.2.1.js"></script>
+    <script src="../user.js"></script>
     <style>
     </style>
 </head>
@@ -73,11 +74,11 @@
         <div class="layui-body">
             <!-- 内容主体区域 -->
             <div style="padding: 15px;">
-                <div class="listall">
-                        <button class="layui-btn">
+                <div class="listall userbtn">
+                        <button class="layui-btn addbtn">
                             <i class="layui-icon">&#xe608;</i> 添加
                         </button>
-                        <button class="layui-btn layui-btn-primary">
+                        <button class="layui-btn layui-btn-primary delbtn">
                             <i class="layui-icon"></i> 删除
                         </button>
                 </div>
@@ -105,7 +106,7 @@
                             // },
                             cols: [
                                 [
-                                    { type: 'checkbox', fixed: 'left' }, 
+                                    { type: 'checkbox', fixed: 'left'}, 
                                     { field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true },
                                     { field: 'username', title: '用户名', width: 80, edit: 'text' }, 
                                     { field: 'sex', title: '性别', width: 80, edit: 'text', sort: true },
@@ -116,9 +117,9 @@
                                         title: '职业',
                                         width: 150,
                                         edit: 'text',
-                                        templet: function(res) {
-                                            return '<em>' + res.classify + '</em>'
-                                        }
+                                        // templet: function(res) {
+                                        //     return '<em>' + res.classify + '</em>'
+                                        // }
                                     },
                                      
                                     
@@ -127,26 +128,8 @@
                                     { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
                                 ]
                             ]
-                        });
-
-                        //头工具栏事件
-                        // table.on('toolbar(test)', function(obj) {
-                        //     var checkStatus = table.checkStatus(obj.config.id);
-                        //     switch (obj.event) {
-                        //         case 'getCheckData':
-                        //             var data = checkStatus.data;
-                        //             layer.alert(JSON.stringify(data));
-                        //             break;
-                        //         case 'getCheckLength':
-                        //             var data = checkStatus.data;
-                        //             layer.msg('选中了：' + data.length + ' 个');
-                        //             break;
-                        //         case 'isAll':
-                        //             layer.msg(checkStatus.isAll ? '全选' : '未全选');
-                        //             break;
-                        //     };
-                        // });
-
+                        });                      
+                        
                         //监听行工具事件
                         table.on('tool(test)', function(obj) {
                             var data = obj.data;
@@ -177,6 +160,17 @@
                                         classify: value
                                     });
                                     layer.close(index);
+                                    $.ajax({
+                                        type:'post',
+                                        url:`/html/user/`,
+                                        data:{
+                                            id : idnum,
+                                            classify : value
+                                        },
+                                        success:(data)=>{
+                                            console.log(data);
+                                        }
+                                    })
                                 });
                             }
                         });
@@ -206,6 +200,19 @@
 
 
                     });
+
+                    $('.addbtn').click(function(){
+                        location.href = 'http://localhost:1809/html/addUser.html';
+                    });
+                    $('.userbtn .delbtn').on('click',function(){
+                        console.log($('.layui-table-body tbody tr'));
+                       
+                        if($('.layui-form-checkbox').is('.layui-form-checked')){
+                            console.log(123)
+                        } 
+                                                                   
+                    });
+
                 </script>
 
 

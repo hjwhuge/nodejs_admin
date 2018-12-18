@@ -1,9 +1,10 @@
 // 利用Express中的Router实现路由模块化
 const express = require('express');
 const mongodb = require('mongodb');
-const url = require('url');
 let Router = express.Router();
-
+const db = require('../db/indexs');
+const bodyParser = require('body-parser');
+let urlencodedParser = bodyParser.urlencoded({ extended: false })
 // 获取Mongo客户端
 const MongoClient = mongodb.MongoClient;
 
@@ -134,7 +135,17 @@ Router.get('/:id',(req,res)=>{
 
 });
 
+Router.post('/',urlencodedParser,async(req,res)=>{
+    console.log(req.body);
+    let data
+    try{
+        data = await db.update('adminer',{id:req.body.id},{classify:req.body.classify});
+    }catch{
+        data = err;
+    }
 
+    res.send(data);
+})
 Router.get('/:username',(req,res)=>{
     res.send({
         path:req.url,
