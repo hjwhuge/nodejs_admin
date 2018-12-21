@@ -109,7 +109,7 @@ Router.route('/:id')
         console.log(id);
         let data
         try{
-            data = await db.update('list',{_id:ObjectID(id)},{state});
+            data = await db.find('list',{_id:ObjectID(id)},{state});
         }catch(err){
             data = err;
         }

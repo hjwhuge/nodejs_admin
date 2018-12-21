@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="../assets/layui/css/layui.css" media="all">
     <script src="../assets/layui/layui.js" charset="utf-8"></script>
     <script src="../assets/jquery-3.2.1.js"></script>
+    <style>
+        #upload p{
+            float: left;
+        }
+    </style>
 </head>
 
 <body class="layui-layout-body">
@@ -69,7 +74,7 @@
             <div style="padding: 15px;">
                 <!-- <ins class="adsbygoogle" style="display:inline-block;width:970px;height:90px" data-ad-client="ca-pub-6111334333458862" data-ad-slot="3820120620"></ins> -->
                 <form class="layui-form" action="" lay-filter="example">
-                                    <div class="layui-form-item">
+                    <div class="layui-form-item">
                         <label class="layui-form-label">商品名称</label>
                         <div class="layui-input-inline">
                             <input type="text" name="headline" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input caption">
@@ -91,7 +96,7 @@
                             <input type="text" name="subheading" lay-verify="title" autocomplete="off" class="layui-input priceNow">
                         </div>
                     </div>
-                                        <div class="layui-form-item">
+                    <div class="layui-form-item">
                         <label class="layui-form-label">商品分类</label>
                         <div class="layui-input-inline" id="category">
                             <select name="modules" lay-verify="required" class="category">
@@ -99,8 +104,14 @@
                             </select>
                         </div>
                     </div>
-                                        <div class="layui-form-item">
-                        <h2>商品图片</h2>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品图片</label>
+                        <div id="upload">
+                            <p><input type="file" name="goodspic" id="goodspic"></p>
+                            <p class="layui-inline">图片预览：</p>
+                            <p><img src="" alt=""></p>
+                            <p><button class="btnsend">上传</button></p>
+                        </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">库存</label>
@@ -108,7 +119,6 @@
                             <input type="text" name="subheading" lay-verify="title" autocomplete="off" class="layui-input stock">
                         </div>
                     </div>
-
                     <div class="layui-form-item">
                         <label class="layui-form-label">复选框</label>
                         <div class="layui-input-block">
@@ -129,7 +139,6 @@
                             <textarea placeholder="请输入内容" class="layui-textarea" name="desc"></textarea>
                         </div>
                     </div>
- 
                     <div class="layui-form-item">
                         <div class="layui-input-block">
                             <a href="javascript:;" class="layui-btn ist_btn">确认</a>
@@ -137,7 +146,7 @@
                     </div>
                 </form>
                 <script>
-                function callback(){
+                function callback() {
                     layui.use(['form', 'layedit', 'laydate'], function() {
                         var form = layui.form,
                             layer = layui.layer,
@@ -191,6 +200,23 @@
                 };
                 </script>
                 <script>
+                //上传图片
+                let goodspic = document.querySelector('#goodspic');
+                let btnsend = document.querySelector('.btnsend');
+                btnsend.onclick = (e) => {
+                    // console.log('file:', goodspic.files);
+                    e.preventDefault();
+                    let formData = new FormData();
+                    formData.append('goodspic', goodspic.files[0]);
+                    let xhr = new XMLHttpRequest();
+                    xhr.onload = () => {
+                        console.log(xhr.responseText);
+                    }
+                    xhr.open('post', '/html/upload', true);
+                    xhr.send(formData)
+                }
+
+
                 //查找所有分类
                 $.ajax({
                     type: "get", //请求方式

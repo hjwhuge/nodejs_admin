@@ -2,6 +2,7 @@ $(function() {
     //接收参数,获取id
     var listId = location.search.slice(1); //?id=0001
     listId = listId.split('=')[1]; //0001
+    // console.log(listId);
     let ctg = '';
     $.ajax({
         type: "get", //请求方式
@@ -23,6 +24,7 @@ $(function() {
     })
     //渲染页面数据
     function init(str) {
+        console.log(str);
         var data = str.data[0];
         console.log(data);
         ctg = data.classify;
