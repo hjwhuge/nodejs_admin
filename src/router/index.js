@@ -1,14 +1,14 @@
 //把路由封装成模块
-const express = require('express');
+const express = require('express')
 
 // 引入单独路由模块
-const userRouter = require('./user');
-const goodsRouter = require('./goods');
-const categoryRouter = require('./category');
-const order = require('./order');
-const upload = require('./upload');
-const login = require('./login');
-let Router = express.Router();
+const userRouter = require('./user')
+const goodsRouter = require('./goods')
+const categoryRouter = require('./category')
+const order = require('./order')
+const upload = require('./upload')
+const login = require('./login')
+let Router = express.Router()
 
 //给所有路由设置允许跨域
 // Router.all('*', function(req, res, next) {
@@ -25,10 +25,10 @@ let Router = express.Router();
 // });
 
 // 关于用户的路由
-Router.use('/html/user',userRouter);
+Router.use('/html/user',userRouter)
 
 // 关于商品信息的路由
-Router.use('/html/goods',goodsRouter);
+Router.use('/html/goods',goodsRouter)
 
 // 关于商品分类的路由
 Router.use('/html/goodsCategory',categoryRouter)
@@ -45,4 +45,4 @@ Router.use('/html/upload',upload)
 Router.use('/login',login)
 
 
-module.exports = Router;
+module.exports = Router
