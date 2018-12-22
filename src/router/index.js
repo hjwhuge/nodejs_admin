@@ -6,6 +6,7 @@ const userRouter = require('./user');
 const goodsRouter = require('./goods');
 const categoryRouter = require('./category');
 const order = require('./order');
+const upload = require('./upload');
 const login = require('./login');
 let Router = express.Router();
 
@@ -35,6 +36,9 @@ Router.use('/html/goodsCategory',categoryRouter)
 
 // 关于订单列表的路由
 Router.use('/html/order',order)
+
+// 关于图片上传的路由
+Router.use('/html/upload',upload)
 
 //关于用户登录的路由
 
