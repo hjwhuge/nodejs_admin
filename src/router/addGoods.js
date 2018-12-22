@@ -42,4 +42,4 @@ Router.get('/',(req,res)=>{
 
 
 
-module.exports = Router;
+module.exports = Router
