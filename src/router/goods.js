@@ -129,7 +129,7 @@ Router.route('/:id')
 
         res.send(data);
     })
-    //添加商品分类信息
+    //添加商品信息
     .put(urlencodedParser,async(req, res) => {
         let {goods,priceOld,priceNow,stock,state,classify} = req.body;
         let data
