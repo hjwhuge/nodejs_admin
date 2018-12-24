@@ -148,7 +148,9 @@
                                     }
 
                                     layer.close(index);
-                                    location.reload();
+                                    if(i==data.length){
+                                        location.reload();
+                                    }
                                 });
                                 break;
                         };

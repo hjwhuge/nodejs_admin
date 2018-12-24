@@ -25,13 +25,18 @@ let upload = multer({ dest: 'temp/',storage });
 //  * single(name)
 Router.post('/',upload.single('goodspic'), (req,res)=>{
     // 通过req.file获取到上传文件的内容
-    console.log(req.file,req.body);
+    // console.log(req.file);
+    
+    //获取文件名
+    // let name = req.file.originalname.split('.')[0];
+    // console.log(name);
     // 存储到数据库
-
+    let name = 'http://localhost:1809/img/' + req.file.originalname;
+    // http://localhost:1809/img/login_bg.jpg
     res.send({
         code:1,
         msg:'文件上传成功',
-        data:req.file
+        data:[req.file,name]
     })
 });
 

@@ -108,9 +108,10 @@
                         <label class="layui-form-label">商品图片</label>
                         <div id="upload">
                             <p><input type="file" name="goodspic" id="goodspic"></p>
-                            <p class="layui-inline">图片预览：</p>
-                            <p><img src="" alt=""></p>
+                            <p class="layui-inline" id="upPic" style="display:none;"></p>
                             <p><button class="btnsend">上传</button></p>
+                            <p><img src="" width="120px" height="120px" id="pvwImg" alt="" /></p>
+                            
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -203,6 +204,8 @@
                 //上传图片
                 let goodspic = document.querySelector('#goodspic');
                 let btnsend = document.querySelector('.btnsend');
+                let upPic = document.querySelector('#upPic');
+                let pvwImg = document.querySelector('#pvwImg');
                 btnsend.onclick = (e) => {
                     // console.log('file:', goodspic.files);
                     e.preventDefault();
@@ -210,7 +213,11 @@
                     formData.append('goodspic', goodspic.files[0]);
                     let xhr = new XMLHttpRequest();
                     xhr.onload = () => {
-                        console.log(xhr.responseText);
+                        // console.log(xhr.responseText);
+                        let data = JSON.parse(xhr.responseText);
+                        // console.log(data.data[1])
+                        upPic.innerHTML = data.data[1];//这里换成图片路径
+                        pvwImg.setAttribute("src",data.data[1]);
                     }
                     xhr.open('post', '/html/upload', true);
                     xhr.send(formData)
@@ -256,6 +263,7 @@
                             priceOld: $('.priceOld').val(),
                             priceNow: $('.priceNow').val(),
                             stock: $('.stock').val(),
+                            url: $('#upPic').html(),
                             state,
                             classify
                         },
