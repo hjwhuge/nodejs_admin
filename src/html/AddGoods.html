@@ -108,8 +108,8 @@
                         <label class="layui-form-label">商品图片</label>
                         <div id="upload">
                             <p><input type="file" name="goodspic" id="goodspic"></p>
-                            <p class="layui-inline">图片预览：</p>
-                            <p><img src="" alt=""></p>
+                            <p class="layui-inline" id="upPic" style="display:none;"></p>
+                            <!-- <p><img src="" alt=""></p> -->
                             <p><button class="btnsend">上传</button></p>
                         </div>
                     </div>
@@ -203,6 +203,7 @@
                 //上传图片
                 let goodspic = document.querySelector('#goodspic');
                 let btnsend = document.querySelector('.btnsend');
+                let upPic = document.querySelector('#upPic');
                 btnsend.onclick = (e) => {
                     // console.log('file:', goodspic.files);
                     e.preventDefault();
@@ -211,6 +212,8 @@
                     let xhr = new XMLHttpRequest();
                     xhr.onload = () => {
                         console.log(xhr.responseText);
+                        let data = xhr.responseText;
+                        upPic.html = data;//这里换成图片路径
                     }
                     xhr.open('post', '/html/upload', true);
                     xhr.send(formData)
