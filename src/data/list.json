@@ -1,0 +1,7 @@
+{"_id":{"$oid":"5c18a18b2b2e6ec2397aa63a"},"goods":"user-2","classify":"魅族","city":"手机","priceOld":"998","priceNow":"798","stock":"20","state":"下架","time":"2018-12-18"}
+{"_id":{"$oid":"5c18a18b2b2e6ec2397aa63c"},"goods":"user-3","classify":"女","city":"手机","priceOld":"998","priceNow":"798","stock":"20","state":"上架","time":"2018-12-18"}
+{"_id":{"$oid":"5c18a18b2b2e6ec2397aa63e"},"goods":"user-4","classify":"金立","city":"手机","priceOld":"998","priceNow":"798","stock":"20","state":"下架","time":"2018-12-18"}
+{"_id":{"$oid":"5c190317d2dbf72be8c92d97"},"goods":"qq","priceOld":"1231","priceNow":"1321","stock":"12313","state":"上架","classify":"小米","time":"2018-12-18"}
+{"_id":{"$oid":"5c190359d2dbf72be8c92d98"},"goods":"wqeq","priceOld":"123123","priceNow":"1231","stock":"222","state":"上架","classify":"小米","time":"2018-12-18"}
+{"_id":{"$oid":"5c207809631286129c091f54"},"goods":"5555555","priceOld":"555","priceNow":"5555","stock":"5555","state":"上架","classify":"金立1","url":"http://localhost:1809/img/g3","time":"2018-12-24"}
+{"_id":{"$oid":"5c20784d631286129c091f55"},"goods":"555555","priceOld":"555","priceNow":"555","stock":"6666","state":"上架","classify":"金立1","url":"http://localhost:1809/img/g3","time":"2018-12-24"}
