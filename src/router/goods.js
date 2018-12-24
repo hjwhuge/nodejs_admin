@@ -106,7 +106,7 @@ Router.get('/',(req,res)=>{
 Router.route('/:id')
     .get(async(req, res) => {
         let {id,state} = req.query;
-        console.log(id);
+        // console.log(id);
         let data
         try{
             data = await db.find('list',{_id:ObjectID(id)},{state});
@@ -119,7 +119,7 @@ Router.route('/:id')
     //修改商品信息
     .post(urlencodedParser,async(req, res) => {
         let {id,goods,priceOld,priceNow,stock,state,classify} = req.body;
-        console.log(id);
+        // console.log(id);
         let data
         try{
             data = await db.update('list',{_id:ObjectID(id)},{goods,priceOld,priceNow,stock,state,classify});
@@ -131,10 +131,11 @@ Router.route('/:id')
     })
     //添加商品信息
     .put(urlencodedParser,async(req, res) => {
-        let {goods,priceOld,priceNow,stock,state,classify} = req.body;
+        let {goods,priceOld,priceNow,stock,state,classify,url} = req.body;
+        // console.log(url)
         let data
         try{
-            data = await db.insert('list',{goods,priceOld,priceNow,stock,state,classify,time:show()});
+            data = await db.insert('list',{goods,priceOld,priceNow,stock,state,classify,url,time:show()});
         }catch(err){
             data = err;
         }
