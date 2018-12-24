@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>后台管理系统</title>
     <link rel="stylesheet" href="../assets/layui/css/layui.css" media="all">
-    <script src="../assets/layui/layui.js" charset="utf-8"></script>
     <script src="../assets/jquery-3.2.1.js"></script>
-    <script src="../user.js"></script>
+    <script src="../assets/layui/layui.js" charset="utf-8"></script>
+    
     <style>
     </style>
 </head>
@@ -28,7 +28,7 @@
 
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
-                    <a href="javascript:;">
+                    <a href="javascript:;" id="username">
 			          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
 			          贤心
 			        </a>
@@ -74,19 +74,17 @@
         <div class="layui-body">
             <!-- 内容主体区域 -->
             <div style="padding: 15px;">
-                <div class="listall userbtn">
-                        <button class="layui-btn addbtn">
-                            <i class="layui-icon">&#xe608;</i> 添加
-                        </button>
-                        <button class="layui-btn layui-btn-primary delbtn">
-                            <i class="layui-icon"></i> 删除
-                        </button>
-                </div>
-
                 <table class="layui-hide" id="test" lay-filter="test"></table>
+                <script type="text/html" id="toolbarDemo">
+                    <div class="layui-btn-container">
+                      <button class="layui-btn layui-btn-sm" lay-event="add">添加</button>
+                      <button class="layui-btn layui-btn-sm" lay-event="delete">删除</button>
+                      
+                    </div>
+                  </script>
 
                 <script type="text/html" id="barDemo">
-                    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+                    <a class="layui-btn layui-btn-xs" lay-event="edit1">编辑</a>
 				  	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 				</script>
                 <script>
@@ -96,7 +94,7 @@
                         table.render({
                             elem: '#test',
                             url: 'user',
-                            // toolbar: '#toolbarDemo',
+                            toolbar: '#toolbarDemo',
                             title: '用户数据表',
                             page: true,
                             id: 'testReload',
@@ -107,78 +105,68 @@
                             cols: [
                                 [
                                     { type: 'checkbox', fixed: 'left'}, 
-                                    { field: 'id', title: 'ID', width: 80, fixed: 'left', unresize: true, sort: true },
-                                    { field: 'username', title: '用户名', width: 80, edit: 'text' }, 
-                                    { field: 'sex', title: '性别', width: 80, edit: 'text', sort: true },
-                                    { field: 'city', title: '城市', width: 100 }, 
-                                    { field: 'sign', title: '签名' }, 
-                                    {
-                                        field: 'classify',
-                                        title: '职业',
-                                        width: 150,
-                                        edit: 'text',
-                                        // templet: function(res) {
-                                        //     return '<em>' + res.classify + '</em>'
-                                        // }
-                                    },
-                                     
+                                    { field: 'username', title: '用户名', width: 80, fixed: 'left', unresize: true, sort: true },
+                                    // { field: 'username', title: '用户名', width: 100, edit: 'text' }, 
+                                    { field: 'usex', title: '性别', width: 100, edit: 'text', sort: true },
+                                    { field: 'uphone', title: '手机号码', width: 100 }, 
                                     
-                                    { field: 'experience', title: '积分', width: 80, sort: true }, 
-                                    { field: 'joinTime', title: '加入时间', width: 120 }, 
+                                    {
+                                        field: 'uemail',
+                                        title: '邮箱',
+                                        width: 150,
+                                        edit: 'text',                                      
+                                    },                                 
+                                    // { field: 'experience', title: '积分', width: 80, sort: true }, 
+                                    { field: 'add_time', title: '加入时间', width: 120 }, 
+                                    { field: 'utext', title: '签名'}, 
                                     { fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150 }
                                 ]
                             ]
-                        });                      
-                        
+                        });       
+
+                        table.on('checkbox(demo)', function(obj){
+                            console.log(obj)
+                        });
+
                         //监听行工具事件
                         table.on('tool(test)', function(obj) {
                             var data = obj.data;
-                            // console.log($(this).parent().parent().parent().children().eq(1).children().html());
-                            var idnum = $(this).parent().parent().parent().children().eq(1).children().html();
-                            console.log(idnum)
+                            var username = $(this).parent().parent().parent().children().eq(1).children().html();                          
+                            // 删除单行
                             if (obj.event === 'del') {
                                 layer.confirm('真的删除当行么', function(index) {
                                     obj.del();                                                                      
                                     layer.close(index);
-                                    let usernameid = $(this).parent();
                                     $.ajax({
-                                        type:'get',
-                                        url:'/html/user/'+idnum,
+                                        type:'delete',
+                                        url:'/html/user/'+username,
+                                        data:{
+                                            username:username
+                                        },
                                         success:(data)=>{
-                                            console.log(data);
+                                            console.log(data)
+                                            if(data.code == 0){
+                                                confirm('删除成功')
+                                            }else{
+                                                confirm('删除失败')
+                                            }
                                         }
                                         
                                     });
                                     
                                 });
-                            } else if (obj.event === 'edit') {
-                                layer.prompt({
-                                    formType: 2,
-                                    value: data.classify
-                                }, function(value, index) {
-                                    obj.update({
-                                        classify: value
-                                    });
-                                    layer.close(index);
-                                    $.ajax({
-                                        type:'post',
-                                        url:`/html/user/`,
-                                        data:{
-                                            id : idnum,
-                                            classify : value
-                                        },
-                                        success:(data)=>{
-                                            console.log(data);
-                                        }
-                                    })
-                                });
+                            } else if (obj.event === 'edit1') {
+                               //编辑用户信息
+                                console.log(data.username)
+                            //点击编辑商品，跳转到编辑页面
+                            location.href = 'useralter.html?username=' + data.username;                                     
                             }
                         });
 
+
                         var $ = layui.$, active = {
                             reload: function(){
-                                var demoReload = $('#demoReload');
-                            
+                                var demoReload = $('#demoReload');                           
                                 //执行重载
                                 table.reload('testReload', {
                                     page: {
@@ -188,7 +176,7 @@
                                         key: {
                                             id: demoReload.val()
                                         }
-                                    }
+                                    } 
                                 });
                             }
                         };
@@ -199,23 +187,54 @@
                         });
 
 
-                    });
+                         //监听头工具栏事件
+                        table.on('toolbar(test)', function(obj){
+                            var checkStatus = table.checkStatus(obj.config.id)
+                            ,data = checkStatus.data; //获取选中的数据
+                            switch(obj.event){
+                            case 'add':
+                                location.href = 'http://localhost:1809/html/addUser.html';
+                            break;
+                            case 'delete':
+                                if(data.length === 0){
+                                    layer.msg('请选择一888行');
+                                } else {    
+                                    
+                                    layer.confirm('真的删除这些行吗', function(index) {
+                                        var username = data.map(function(item){
+                                                return item.username;
+                                            });                                        
+                                            console.log(username)
+                                            for(var i=0;i<username.length;i++){
+                                                $.ajax({
+                                                    type:'delete',
+                                                    url:'/html/user/'+username[i],
+                                                    data:{
+                                                        username:username[i]
+                                                    },
+                                                    success:(data)=>{   
+                                                        if(data.code == 0){
+                                                            alert('删除成功')
+                                                        }
+                                                    }
+                                                    
+                                                });
+                                            }
+                                            layer.close(index);
+                                            location.reload();
+                                     });
+                                    
+                                    
+                                }
+                            break;
+                            };
+                        });
 
-                    $('.addbtn').click(function(){
-                        location.href = 'http://localhost:1809/html/addUser.html';
                     });
-                    $('.userbtn .delbtn').on('click',function(){
-                        console.log($('.layui-table-body tbody tr'));
-                       
-                        if($('.layui-form-checkbox').is('.layui-form-checked')){
-                            console.log(123)
-                        } 
-                                                                   
-                    });
-
+                    var uu = document.querySelector('#username');
+            var storage=window.localStorage;
+            uu.innerHTML=storage.name;
                 </script>
-
-
             </div>
         </div>
 

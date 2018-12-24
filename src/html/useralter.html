@@ -152,40 +152,63 @@
                     form.render();                
                 });
 
-                    $('#userbtn').click(function(){
-                        let username = $('.uname').val();
-                        let psws = $('.psws').val();
-                        let uphone = $('.uphone').val()*1;
-                        let usex = $('.layui-this').html();
-                        let uemail = $('.ue-mail').val();
-                        let utext = $('.utext').val();
+                var urlname = location.search.slice(1);    
+                name = urlname.split('=')[1];
 
-                        
-                        
-                        $.ajax({
-                            type:'put',
-                            url:'/html/user/',
-                            data:{
-                                username:username,
-                                password:psws,
-                                uphone:uphone,
-                                usex:usex,
-                                uemail:uemail,   
-                                utext:utext                        
-                            },
-                            success:(data)=>{
-                                console.log(data)
-                                if(data.code == 0){
-                                    console.log(666)
-                                    alert('添加成功');
-                                    $("#myform").form("clear");
-                                }else{
-                                    alert('添加失败')
-                                }
-                            }
-                        })
+                $.ajax({
+                    type:'get',
+                    url:'/html/adduser',
+                    data:{
+                        name
+                    },
+                    success:(data)=>{                            
+                        var res = data.data[0];
+                        console.log(res)
+                        $('.uname').val(res.username);
+                        $('.psws').val(res.password);
+                        $('.uphone').val(res.uphone);
+                        $('.usex').val(res.usex);
+                        $('.ue-mail').val(res.uemail);
+                        $('.utext').val(res.utext);
+
+                    }
+            
+                });
+                       
                     
-                    });
+
+                $('#userbtn').click(function(){
+                    let username2 = $('.uname').val();
+                    let psws = $('.psws').val();
+                    let uphone = $('.uphone').val()*1;
+                    let usex = $('.layui-this').html();
+                    let uemail = $('.ue-mail').val();
+                    let utext = $('.utext').val();
+
+                    
+                    
+                    $.ajax({
+                        type:'post',
+                        url:'/html/adduser',
+                        data:{
+                            username:username2,
+                            password:psws,
+                            uphone:uphone,
+                            uemail:uemail,   
+                            utext:utext                        
+                        },
+                        success:(data)=>{
+                            console.log(data);
+                            if(data.code == 0){
+                                alert('更改成功')
+                                location.href = 'http://localhost:1809/html/user.html';
+                            }else{
+                                alert('更改失败')
+                            }
+                        }
+                    })
+                
+                });
                 
 
                 var uu = document.querySelector('#username');

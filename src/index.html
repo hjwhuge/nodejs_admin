@@ -7,6 +7,7 @@
     <title>后台管理系统</title>
     <link rel="stylesheet" href="assets/layui/css/layui.css" media="all">
     <script src="assets/layui/layui.js" charset="utf-8"></script>
+    <script src="assets/jquery-3.2.1.js"></script>
 </head>
 
 <body class="layui-layout-body">
@@ -22,7 +23,7 @@
 
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
-                    <a href="javascript:;">
+                    <a href="javascript:;" id="username">
 			          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
 			          贤心
 			        </a>
@@ -116,6 +117,8 @@
                       
                       
                     });
+                    var storage=window.localStorage;
+                    $('#username').html(storage.name);
                     </script>
             </div>
         </div>

@@ -102,6 +102,7 @@
             $('.btn').click(()=>{
                 var name = $('.name').val();
                 var password = $('.password').val();
+                // console.log(typeof(password));
                 $.ajax({
                     type:'post',
                     url:'/login',
@@ -112,6 +113,8 @@
                     },
                     success:(data)=>{
                         if(data.code == 1){
+                            var storage = window.localStorage;
+                            storage.name = name;
                             location.href = '../index.html';
                         }else{
                             alert('用户名或密码错误');

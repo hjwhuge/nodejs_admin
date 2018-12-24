@@ -23,7 +23,7 @@
             </ul>
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item">
-                    <a href="javascript:;">
+                    <a href="javascript:;" id="username">
                       <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
                       贤心
                     </a>
@@ -236,6 +236,7 @@
 
 
                 });
+                
                 </script>
 
             </div>
@@ -245,6 +246,9 @@
             底部固定区域
         </div>
         <script>
+            var uu = document.querySelector('#username');
+            var storage=window.localStorage;
+            uu.innerHTML=storage.name;
         //JavaScript代码区域
         layui.use('element', function() {
             var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块

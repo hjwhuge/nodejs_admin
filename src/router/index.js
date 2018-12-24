@@ -8,6 +8,7 @@ const categoryRouter = require('./category');
 const order = require('./order');
 const upload = require('./upload');
 const login = require('./login');
+const adduser = require('./adduser');
 let Router = express.Router();
 
 //给所有路由设置允许跨域
@@ -23,6 +24,7 @@ let Router = express.Router();
 //       next();
 //     }
 // });
+
 
 // 关于用户的路由
 Router.use('/html/user',userRouter);
@@ -41,8 +43,9 @@ Router.use('/html/order',order)
 Router.use('/html/upload',upload)
 
 //关于用户登录的路由
-
 Router.use('/login',login)
+
+Router.use('/html/adduser',adduser);
 
 
 module.exports = Router;

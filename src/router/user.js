@@ -13,7 +13,6 @@ Router.get('/',(req,res)=>{
     // console.log(req.query);查看请求参数，如果没有默认为{}
     let {page,limit,key} = req.query;
 
-    // console.log(page,limit,key);
     MongoClient.connect('mongodb://localhost:27017',{ useNewUrlParser: true },(err, database)=>{
         //连接成功后执行这个回调函数
         if(err) throw err;
@@ -22,7 +21,7 @@ Router.get('/',(req,res)=>{
         let db = database.db('administrator');
 
         // 使用集合
-        let user = db.collection('adminer');
+        let user = db.collection('adduser');
 
         //查询数据总条数
         let pages;
@@ -35,11 +34,10 @@ Router.get('/',(req,res)=>{
         //     pages = result.length;
         //     console.log(pages);
         // })
-
+        // console
         // 查询数据
         if(key){
-            user.find({id:(key.id)*1}).toArray((err,result)=>{
-                // console.log(key.id,result);
+            user.find({username:(key.username)}).toArray((err,result)=>{
                 let data;
                 if(err){
                     data={
@@ -100,59 +98,36 @@ Router.get('/',(req,res)=>{
    
 });
 
-Router.get('/:id',(req,res)=>{
-    let {id} = req.params;
-    if(id){
-        MongoClient.connect('mongodb://localhost:27017',{ useNewUrlParser: true },(err, database)=>{
-            //连接成功后执行这个回调函数
-            if(err) throw err;
 
-            // 使用某个数据库，无则自动创建
-            let db = database.db('administrator');
+Router.route('/:username')
+    //删除用户信息
+    .delete(urlencodedParser,async(req, res) => {
+        let {username} = req.body;
+        console.log(req.body);
+        let data
+        try{
+            data = await db.delete('adduser',{username:username});
+        }catch(err){
+            data = err;
+        }
 
-            // 使用集合
-            let user = db.collection('adminer');
-
-            
-            // 删除数据 deleteOne()
-            user.remove({id:id*1},(err,result)=>{
-                if(err){
-                    res.send(err);
-                }else{
-                    res.send({
-                        code:1
-                    })
-                }
-
-            })
-
-            // 关闭数据库，避免资源浪费
-            database.close();
-
-        });
-    }
+        res.send(data);
+    })
     
 
-});
+    //添加用户
+    Router.put('/',urlencodedParser,async(req,res)=>{console.log(req.body)
+        let data
+        try{
+            data = await db.insert('adduser',{...req.body,add_time:new Date().toLocaleDateString()});
+        }catch(err){
+            data = err;
+        }
 
-Router.post('/',urlencodedParser,async(req,res)=>{
-    console.log(req.body);
-    let data
-    try{
-        data = await db.update('adminer',{id:req.body.id},{classify:req.body.classify});
-    }catch{
-        data = err;
-    }
+        res.send(data);
+    })
 
-    res.send(data);
-})
-Router.get('/:username',(req,res)=>{
-    res.send({
-        path:req.url,
-        username:req.params.username
-    });
 
-});
 
 
 module.exports = Router;

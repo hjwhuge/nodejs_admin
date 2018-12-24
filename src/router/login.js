@@ -13,6 +13,8 @@ Router.get('/',(req,res)=>{
 
 Router.post('/', urlencodedParser, (req,res)=>{
         let {name,password} = req.body;
+        console.log(name)
+        console.log(password)
         //连接MongoDB并连接数据库laoxie，无则自动创建
         MongoClient.connect("mongodb://localhost:27017", function(err, database) {
             //链接错误
@@ -21,12 +23,15 @@ Router.post('/', urlencodedParser, (req,res)=>{
             //链接数据库
             let db = database.db('administrator');
             // 使用集合
-            let user = db.collection('user');
+            let user = db.collection('adduser');
             // 处理password为数字的情况
-            password = isNaN(password) ? password : password*1;
-            
+            // password = isNaN(password) ? password : password*1;
+            //处理用户名为数字的情况
+            // name = isNaN(name) ? name : toString(name);
+            let username = name;
+            console.log(username);
             //查询数据是否存在
-            user.findOne({name,password},(err,result)=>{
+            user.findOne({username,password},(err,result)=>{
                 
                 if(result){
                     //查到数据，登录成功
