@@ -193,7 +193,7 @@
                             ,data = checkStatus.data; //获取选中的数据
                             switch(obj.event){
                             case 'add':
-                                location.href = 'http://localhost:1809/html/addUser.html';
+                                location.href = 'http://47.106.178.206:5005/html/addUser.html';
                             break;
                             case 'delete':
                                 if(data.length === 0){
@@ -236,7 +236,7 @@
                     if(storage.name){
                         uu.innerHTML=storage.name;
                     }else{
-                        location.href='http://localhost:5005/html/longin.html';
+                        location.href='http://47.106.178.206:5005/html/longin.html';
                     }
                     var outbtn = document.querySelector('#output')
                     outbtn.onclick = function(){

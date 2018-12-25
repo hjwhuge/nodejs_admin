@@ -31,7 +31,7 @@ Router.post('/',upload.single('goodspic'), (req,res)=>{
     // let name = req.file.originalname.split('.')[0];
     // console.log(name);
     // 存储到数据库
-    let name = 'http://localhost:1809/img/' + req.file.originalname;
+    let name = 'http://47.106.178.206:5005/img/' + req.file.originalname;
     // http://localhost:1809/img/login_bg.jpg
     res.send({
         code:1,

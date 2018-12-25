@@ -21,7 +21,7 @@ Router.post('/', urlencodedParser, (req,res)=>{
             if(err) throw err;
             //链接成功
             //链接数据库
-            let db = database.db('administrator');
+            let db = database.db('NodeProject');
             // 使用集合
             let user = db.collection('adduser');
             // 处理password为数字的情况

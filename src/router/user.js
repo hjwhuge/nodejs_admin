@@ -18,10 +18,10 @@ Router.get('/',(req,res)=>{
         if(err) throw err;
 
         // 使用某个数据库，无则自动创建
-        let db = database.db('administrator');
+        let db = database.db('NodeProject');
 
         // 使用集合
-        let user = db.collection('NodeProject');
+        let user = db.collection('adduser');
 
         //查询数据总条数
         let pages;
