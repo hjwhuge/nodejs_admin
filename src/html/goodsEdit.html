@@ -27,14 +27,14 @@
                 <li class="layui-nav-item">
                     <a href="javascript:;" id="username">
                       <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                      贤心
+                      
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="">基本资料</a></dd>
                         <dd><a href="">安全设置</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="">退了</a></li>
+                <li class="layui-nav-item" id="output"><a href="">退了</a></li>
             </ul>
         </div>
         <div class="layui-side layui-bg-black">
@@ -177,9 +177,18 @@
                     });
                     
                 }
+                var storage=window.localStorage;
                 var uu = document.querySelector('#username');
-            var storage=window.localStorage;
-            uu.innerHTML=storage.name;
+                if(storage.name){
+                    uu.innerHTML=storage.name;
+                }else{
+                    location.href='http://localhost:5005/html/longin.html';
+                }
+                var outbtn = document.querySelector('#output')
+                outbtn.onclick = function(){
+                    localStorage.removeItem('name');
+                }
+                var uu = document.querySelector('#username');
                 </script>
  
             </div>
