@@ -2,7 +2,7 @@
 const express = require('express')
 
 // 引入单独路由模块
-<<<<<<< HEAD
+
 const userRouter = require('./user');
 const goodsRouter = require('./goods');
 const categoryRouter = require('./category');
@@ -11,15 +11,7 @@ const upload = require('./upload');
 const login = require('./login');
 const adduser = require('./adduser');
 let Router = express.Router();
-=======
-const userRouter = require('./user')
-const goodsRouter = require('./goods')
-const categoryRouter = require('./category')
-const order = require('./order')
-const upload = require('./upload')
-const login = require('./login')
-let Router = express.Router()
->>>>>>> 5fe42f0228aa036a11624426315be44e7322bdac
+
 
 //给所有路由设置允许跨域
 // Router.all('*', function(req, res, next) {
