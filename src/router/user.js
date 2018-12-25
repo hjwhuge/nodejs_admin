@@ -21,7 +21,7 @@ Router.get('/',(req,res)=>{
         let db = database.db('administrator');
 
         // 使用集合
-        let user = db.collection('adduser');
+        let user = db.collection('NodeProject');
 
         //查询数据总条数
         let pages;

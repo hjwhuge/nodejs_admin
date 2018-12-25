@@ -16,8 +16,8 @@ Router.route('/')
         let data;
         try{
             data = await db.find('adduser',{username:name});
-        }catch{
-            data = '';
+        }catch(err){
+            data = err;
         }
         res.send(data);
     })

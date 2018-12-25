@@ -21,7 +21,7 @@ function connect(collectionName){
             }
 
             // 使用数据库
-            let db = client.db('administrator');
+            let db = client.db('NodeProject');
 
             // 使用集合
             let col = db.collection(collectionName);
